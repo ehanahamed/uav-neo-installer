@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 
 # static variables
-SIM_URL="https://github.com/MITRacecarNeo/RacecarNeo-Simulator.git"
-LIB_URL="https://github.com/MITRacecarNeo/racecar-neo-library.git"
-CURR_URL="https://github.com/MITRacecarNeo/racecar-neo-"
+SIM_URL="https://github.com/MITUavNeo/UAVNeo-Simulator.git"
+LIB_URL="https://github.com/MITUavNeo/uav-neo-library.git"
+CURR_URL="https://github.com/MITUavNeo/uav-neo-"
 
 # Get the full path of the current script
 SCRIPT_PATH=$(readlink -f "$0" 2>/dev/null || echo "$(cd "$(dirname "$0")"; pwd)/$(basename "$0")")
@@ -33,7 +33,7 @@ do
 
             # Allow permissions
             if [ "$PLATFORM" == 'mac' ]; then
-                chmod -R 777 RacecarNeo-Simulator
+                chmod -R 777 UAVNeo-Simulator
             fi
 
             break
@@ -44,22 +44,22 @@ do
 done
 
 
-echo '[2/3] Select your course curriculum: [oneshot, outreach, prereq, mites]'
-select CURRICULUM in oneshot outreach prereq mites
+echo '[2/3] Select your course curriculum: [oneshot]'
+select CURRICULUM in oneshot
 
 do
     case $CURRICULUM in
-        oneshot|outreach|prereq|mites)
+        oneshot)
             # Go one folder back from scripts directory
             cd "$SCRIPT_DIR"/..
             # Set up library and labs folder w/ correct formatting
             git clone "${LIB_URL}"
-            mv racecar-neo-library/library library
-            rm -rf racecar-neo-library
+            mv uav-neo-library/library library
+            rm -rf uav-neo-library
 
             git clone "${CURR_URL}${CURRICULUM}-labs"
-            mv "racecar-neo-${CURRICULUM}-labs"/labs labs
-            rm -rf "racecar-neo-${CURRICULUM}-labs"
+            mv "uav-neo-${CURRICULUM}-labs"/labs labs
+            rm -rf "uav-neo-${CURRICULUM}-labs"
             cd "$SCRIPT_DIR"
             break
             ;;
@@ -91,7 +91,7 @@ if [ "$PLATFORM" == 'windows' ]; then
     # continue with regular setup
     yes | sudo apt install jupyter-notebook
     yes | sudo apt install ffmpeg libsm6 libxext6 -y
-    busybox dos2unix "${SCRIPT_DIR}"/racecar_tool.sh
+    busybox dos2unix "${SCRIPT_DIR}"/uav_tool.sh
 
     echo "[DEBUG] Running config and tool commands..."
 
@@ -108,8 +108,8 @@ export DISPLAY=localhost:42.0" > "${SCRIPT_DIR}/.config"
 if [ -f \"${SCRIPT_DIR}/.config\" ]; then # DRONE_ALIASES
     . \"${SCRIPT_DIR}/.config\" # DRONE_ALIASES
 fi # DRONE_ALIASES
-if [ -f \"${SCRIPT_DIR}/racecar_tool.sh\" ]; then # DRONE_ALIASES
-    . \"${SCRIPT_DIR}/racecar_tool.sh\" # DRONE_ALIASES
+if [ -f \"${SCRIPT_DIR}/uav_tool.sh\" ]; then # DRONE_ALIASES
+    . \"${SCRIPT_DIR}/uav_tool.sh\" # DRONE_ALIASES
 fi # DRONE_ALIASES" >> ~/.bashrc
 
     echo "[DEBUG] Finished running config and tool commands..."
@@ -134,7 +134,7 @@ elif [ "$PLATFORM" == 'linux' ]; then
 
     yes | sudo apt install jupyter-notebook
     yes | sudo apt install ffmpeg libsm6 libxext6 -y
-    busybox dos2unix "${SCRIPT_DIR}"/racecar_tool.sh
+    busybox dos2unix "${SCRIPT_DIR}"/uav_tool.sh
 
     echo "[DEBUG] Running config and tool commands..."
 
@@ -151,8 +151,8 @@ sudo sysctl -w net.ipv4.udp_mem="65535 131071 262142"" > "${SCRIPT_DIR}/.config"
 if [ -f \"${SCRIPT_DIR}/.config\" ]; then # DRONE_ALIASES
     . \"${SCRIPT_DIR}/.config\" # DRONE_ALIASES
 fi # DRONE_ALIASES
-if [ -f \"${SCRIPT_DIR}/racecar_tool.sh\" ]; then # DRONE_ALIASES
-    . \"${SCRIPT_DIR}/racecar_tool.sh\" # DRONE_ALIASES
+if [ -f \"${SCRIPT_DIR}/uav_tool.sh\" ]; then # DRONE_ALIASES
+    . \"${SCRIPT_DIR}/uav_tool.sh\" # DRONE_ALIASES
 fi # DRONE_ALIASES" >> ~/.bashrc
 
     echo "[DEBUG] Finished running config and tool commands..."
@@ -197,8 +197,8 @@ sudo sysctl -w net.inet.udp.maxdgram=65535" > "${SCRIPT_DIR}/.config"
 if [ -f \"${SCRIPT_DIR}/.config\" ]; then # DRONE_ALIASES
     . \"${SCRIPT_DIR}/.config\" # DRONE_ALIASES
 fi # DRONE_ALIASES
-if [ -f \"${SCRIPT_DIR}/racecar_tool.sh\" ]; then # DRONE_ALIASES
-    . \"${SCRIPT_DIR}/racecar_tool.sh\" # DRONE_ALIASES
+if [ -f \"${SCRIPT_DIR}/uav_tool.sh\" ]; then # DRONE_ALIASES
+    . \"${SCRIPT_DIR}/uav_tool.sh\" # DRONE_ALIASES
 fi # DRONE_ALIASES" >> ~/.bashrc
 
     sed -i '' '/# DRONE_ALIASES$/d' ~/.zshrc
@@ -206,8 +206,8 @@ fi # DRONE_ALIASES" >> ~/.bashrc
 if [ -f \"${SCRIPT_DIR}/.config\" ]; then # DRONE_ALIASES
     . \"${SCRIPT_DIR}/.config\" # DRONE_ALIASES
 fi # DRONE_ALIASES
-if [ -f \"${SCRIPT_DIR}/racecar_tool.sh\" ]; then # DRONE_ALIASES
-    . \"${SCRIPT_DIR}/racecar_tool.sh\" # DRONE_ALIASES
+if [ -f \"${SCRIPT_DIR}/uav_tool.sh\" ]; then # DRONE_ALIASES
+    . \"${SCRIPT_DIR}/uav_tool.sh\" # DRONE_ALIASES
 fi # DRONE_ALIASES" >> ~/.zshrc
 
     $SHELL
